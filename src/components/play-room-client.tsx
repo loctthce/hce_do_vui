@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { fetchAdminSession, signOutAdminSession } from '@/lib/admin-session';
@@ -37,7 +37,7 @@ export function PlayRoomClient({ roomCode }: { roomCode: string }) {
     return room.questions[room.current_question_index] ?? null;
   }, [room]);
 
-  async function loadState() {
+  const loadState = useCallback(async () => {
     try {
       const response = await fetch(`/api/rooms/${roomCode}/state`, { cache: 'no-store' });
       const result = await response.json();
@@ -50,7 +50,7 @@ export function PlayRoomClient({ roomCode }: { roomCode: string }) {
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : 'Có lỗi xảy ra.');
     }
-  }
+  }, [roomCode]);
 
   useEffect(() => {
     setPlayer(getStoredPlayer(roomCode));
@@ -59,9 +59,11 @@ export function PlayRoomClient({ roomCode }: { roomCode: string }) {
       setHasAdminSession(Boolean(session?.userId));
     })();
     void loadState();
-    const timer = window.setInterval(loadState, 5000);
+    const timer = window.setInterval(() => {
+      void loadState();
+    }, 5000);
     return () => window.clearInterval(timer);
-  }, [roomCode]);
+  }, [loadState, roomCode]);
 
   useEffect(() => {
     let cancelled = false;
@@ -103,7 +105,7 @@ export function PlayRoomClient({ roomCode }: { roomCode: string }) {
     }
 
     return cleanup;
-  }, [room?.id, roomCode]);
+  }, [loadState, room?.id, roomCode]);
 
   useEffect(() => {
     const questionId = currentQuestion?.id ?? null;

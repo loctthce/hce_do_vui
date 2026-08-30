@@ -12,6 +12,13 @@ const commonCookieOptions = {
   path: '/'
 };
 
+const csrfCookieOptions = {
+  httpOnly: false,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+  path: '/'
+};
+
 export function readCookieFromHeader(cookieHeader: string | null, cookieName: string): string | null {
   if (!cookieHeader) {
     return null;
@@ -68,7 +75,7 @@ export function clearAdminAuthCookies(response: NextResponse) {
   });
 
   response.cookies.set(ADMIN_CSRF_COOKIE, '', {
-    ...commonCookieOptions,
+    ...csrfCookieOptions,
     maxAge: 0
   });
 }
@@ -83,7 +90,7 @@ export function ensureAdminCsrfCookie(response: NextResponse, cookieHeader: stri
   crypto.getRandomValues(bytes);
   const token = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
   response.cookies.set(ADMIN_CSRF_COOKIE, token, {
-    ...commonCookieOptions,
+    ...csrfCookieOptions,
     maxAge: 60 * 60 * 24 * 30
   });
   return token;

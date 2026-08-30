@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { getSupabaseAdminClient } from './supabase';
-import type { Quiz, QuizOption, QuizQuestion, RoomState } from './types';
+import type { Quiz, QuizOption, RoomState } from './types';
 
 export function generateRoomCode() {
   return randomBytes(3).toString('hex').toUpperCase();

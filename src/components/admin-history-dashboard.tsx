@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchAdminSession, signOutAdminSession } from '@/lib/admin-session';
 
@@ -43,7 +43,7 @@ export function AdminHistoryDashboard() {
     return (dashboard?.recentRooms ?? []).filter((room) => room.status === 'finished');
   }, [dashboard?.recentRooms]);
 
-  async function loadDashboard() {
+  const loadDashboard = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -75,11 +75,11 @@ export function AdminHistoryDashboard() {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [router]);
 
   useEffect(() => {
     void loadDashboard();
-  }, [router]);
+  }, [loadDashboard]);
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-6 py-12">

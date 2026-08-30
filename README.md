@@ -40,5 +40,10 @@ alter table rooms add column if not exists host_user_id uuid;
 
 ## Deploy Vercel
 - Import repo lên Vercel
-- Set các biến môi trường ở trên
+- Set Environment Variables trên Vercel cho cả Preview + Production:
+	- `NEXT_PUBLIC_SUPABASE_URL`
+	- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+	- `SUPABASE_SERVICE_ROLE_KEY`
+	- `NEXT_PUBLIC_APP_URL` (URL domain deploy, ví dụ `https://your-app.vercel.app`)
 - Dùng schema Supabase đã cung cấp
+- Sau khi deploy, đăng nhập admin lại để tạo cookie phiên trên đúng domain Vercel.

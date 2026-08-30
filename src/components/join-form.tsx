@@ -60,7 +60,7 @@ export function JoinForm() {
           type="button"
           disabled={isJoining || !roomCode.trim() || !playerName.trim()}
           onClick={joinRoom}
-          className="rounded-2xl bg-[var(--accent)] px-4 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-2xl border-0 bg-[var(--accent)] px-4 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isJoining ? 'Đang vào phòng...' : 'Vào phòng'}
         </button>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchAdminSession } from '@/lib/admin-session';
+import { BrandMark } from '@/components/brand-mark';
 import { getAdminCsrfHeader } from '@/lib/csrf-client';
 
 export function AdminLoginForm() {
@@ -64,7 +65,8 @@ export function AdminLoginForm() {
   return (
     <main className="mx-auto flex min-h-screen max-w-xl items-center px-6 py-12">
       <div className="w-full rounded-[2rem] border border-white/10 bg-[var(--panel)] p-8 shadow-glow">
-        <h1 className="text-3xl font-bold">Đăng nhập quản trị</h1>
+        <BrandMark href="/" compact />
+        <h1 className="mt-4 text-3xl font-bold">Đăng nhập quản trị</h1>
         <p className="mt-3 text-[var(--muted)]">Dùng tài khoản Supabase Auth đã được gán role admin trong bảng profiles.</p>
 
         <div className="mt-6 grid gap-4">
@@ -86,7 +88,7 @@ export function AdminLoginForm() {
             type="button"
             onClick={signIn}
             disabled={isLoading || !email.trim() || !password}
-            className="rounded-2xl bg-[var(--accent)] px-4 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border-0 bg-[var(--accent)] px-4 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>

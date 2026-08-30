@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BrandMark } from '@/components/brand-mark';
 
 const actions = [
   {
@@ -18,10 +19,8 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-16">
       <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div className="space-y-6">
-          <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-[#ffd166]">
-            Quiz Arena
-          </span>
-          <h1 className="max-w-2xl text-5xl font-black leading-tight md:text-7xl">
+          <BrandMark />
+          <h1 className="max-w-2xl text-5xl font-extrabold leading-tight md:text-7xl">
             Ứng dụng quiz realtime kiểu Kahoot cho Dự án 19.
           </h1>
           <p className="max-w-2xl text-lg text-[var(--muted)] md:text-xl">
@@ -32,7 +31,7 @@ export default function HomePage() {
               <Link
                 key={action.href}
                 href={action.href}
-                className="rounded-2xl border border-white/10 bg-[var(--panel)] px-6 py-4 shadow-[0_20px_70px_rgba(0,0,0,0.35)] transition hover:-translate-y-1 hover:border-[#ffd166]/40"
+                className="rounded-2xl border border-white/10 bg-[var(--panel)] px-6 py-4 transition hover:-translate-y-1 hover:border-[#ffb000]/50"
               >
                 <div className="text-lg font-semibold">{action.title}</div>
                 <div className="mt-1 max-w-xs text-sm text-[var(--muted)]">{action.description}</div>
@@ -40,7 +39,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        <div className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow backdrop-blur-md">
+        <div className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow">
           <div className="grid gap-4 text-sm text-[var(--muted)]">
             <div className="rounded-2xl border border-white/5 bg-white/5 p-4">
               Câu hỏi đúng/sai + câu hỏi nhiều lựa chọn

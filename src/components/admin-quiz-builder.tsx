@@ -171,13 +171,13 @@ export function AdminQuizBuilder() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-      <section className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow">
+    <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+      <section className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow md:p-7">
         {!session?.userId && (
-          <div className="mb-6 rounded-2xl border border-[#ef476f]/40 bg-[#ef476f]/10 px-4 py-3 text-sm text-[#ffc8d7]">
+          <div className="mb-6 rounded-2xl border border-[#e0475a]/35 bg-[#e0475a]/10 px-4 py-3 text-sm text-[#a63445]">
             Bạn chưa đăng nhập admin. Vào
             {' '}
-            <Link href="/admin/login" className="font-semibold text-white underline">trang đăng nhập</Link>
+            <Link href="/admin/login" className="font-semibold underline">trang đăng nhập</Link>
             {' '}
             để tiếp tục.
           </div>
@@ -186,37 +186,40 @@ export function AdminQuizBuilder() {
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
           <span className="text-[var(--muted)]">Tài khoản: {session?.email ?? 'Chưa đăng nhập'}</span>
           <div className="flex gap-2">
-            <Link href="/admin/history" className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">Lịch sử phòng</Link>
+            <Link href="/admin/history" className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 font-semibold">Lịch sử phòng</Link>
             {session?.userId && (
-              <button type="button" onClick={() => void signOutAdmin()} className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">Đăng xuất</button>
+              <button type="button" onClick={() => void signOutAdmin()} className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 font-semibold">Đăng xuất</button>
             )}
           </div>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-[var(--muted)]">Tên quiz</label>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Tên quiz</label>
             <input value={title} onChange={(event) => setTitle(event.target.value)} className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none transition focus:border-[#ffd166]/50" placeholder="VD: Vòng chung kết kiến thức" />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-[var(--muted)]">Mô tả</label>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Mô tả</label>
             <textarea value={description} onChange={(event) => setDescription(event.target.value)} className="min-h-24 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none transition focus:border-[#ffd166]/50" placeholder="Mô tả ngắn cho quiz" />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-[var(--muted)]">Tên host</label>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Tên host</label>
             <input value={hostName} onChange={(event) => setHostName(event.target.value)} className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none transition focus:border-[#ffd166]/50" placeholder="VD: Quản trị viên" />
           </div>
         </div>
 
         <div className="mt-6 space-y-4">
           {questions.map((question, questionIndex) => (
-            <article key={questionIndex} className="rounded-3xl border border-white/10 bg-black/20 p-5">
+            <article key={questionIndex} className="rounded-3xl border border-white/10 bg-black/20 p-5 md:p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="font-semibold">Câu hỏi {questionIndex + 1}</h3>
+                <h3 className="inline-flex items-center gap-2 text-lg font-bold">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#ffb000]/15 text-sm font-bold text-[#c48400]">{questionIndex + 1}</span>
+                  Câu hỏi
+                </h3>
                 <select
                   value={question.question_type}
                   onChange={(event) => updateQuestion(questionIndex, () => event.target.value === 'true_false' ? createTrueFalseQuestion() : createMultipleChoiceQuestion())}
-                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+                  className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold"
                 >
                   <option value="true_false">Đúng / Sai</option>
                   <option value="multiple_choice">Trắc nghiệm lựa chọn</option>
@@ -250,7 +253,7 @@ export function AdminQuizBuilder() {
                 </div>
                 <div className="grid gap-3">
                   {question.options.map((option, optionIndex) => (
-                    <label key={optionIndex} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                    <label key={optionIndex} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 transition hover:border-[#ffb000]/40">
                       <input
                         type="radio"
                         name={`correct-${questionIndex}`}
@@ -299,7 +302,7 @@ export function AdminQuizBuilder() {
             type="button"
             disabled={!canSubmit || isSaving}
             onClick={submitQuiz}
-            className="rounded-2xl bg-[var(--accent)] px-5 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border-0 bg-[var(--accent)] px-5 py-3 font-semibold text-black transition disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSaving ? 'Đang lưu...' : 'Tạo quiz và phòng'}
           </button>
@@ -308,15 +311,15 @@ export function AdminQuizBuilder() {
         {message && <p className="mt-4 text-sm text-[var(--muted)]">{message}</p>}
       </section>
 
-      <aside className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow">
+      <aside className="rounded-[2rem] border border-white/10 bg-[var(--panel)] p-6 shadow-glow lg:sticky lg:top-6 lg:h-fit">
         <h2 className="text-xl font-semibold">Kết quả tạo</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">Sau khi tạo thành công, bạn sẽ nhận được mã phòng để chia sẻ cho người chơi.</p>
         <div className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
           {roomCode ? (
             <>
-              <div className="text-sm text-[var(--muted)]">Mã phòng</div>
-              <div className="mt-2 text-4xl font-black tracking-[0.2em] text-[var(--accent)]">{roomCode}</div>
-              <a href={`/play/${roomCode}`} className="mt-4 inline-flex rounded-2xl bg-[var(--accent2)] px-4 py-3 font-semibold text-black">
+              <div className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Mã phòng</div>
+              <div className="mt-2 text-4xl font-extrabold tracking-[0.2em] text-[var(--accent)]">{roomCode}</div>
+              <a href={`/play/${roomCode}`} className="mt-4 inline-flex rounded-2xl border-0 bg-[var(--accent2)] px-4 py-3 font-semibold text-black">
                 Mở phòng ngay
               </a>
             </>
